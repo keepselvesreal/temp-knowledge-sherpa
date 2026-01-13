@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: wordpress_playground_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - playground_db_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress_playground_app
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: ${DB_NAME}
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DEBUG: ${DEBUG_MODE}
+    volumes:
+      # WordPress 핵심 파일
+      - ./wp-config.php:/var/www/html/wp-config.php
+
+      # wp-content 전체 (themes, plugins, uploads, cache, mu-plugins)
+      - ./wp-content:/var/www/html/wp-content
+
+      # PHP 에러 로그
+      - ./logs/php-error.log:/var/www/html/error_log
+    ports:
+      - "8080:80"
+
+volumes:
+  playground_db_data:
+    name: wordpress_playground_db_data
