@@ -1,3 +1,4 @@
 .env
 db-initial-backup.sql
 logs/
+wp-content/uploads

@@ -8,6 +8,44 @@ Author: Claude Code
 
 @import url(../twentytwentyfive/style.css);
 
+/* Sidebar styling */
+.sidebar-left {
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+}
+
+.sidebar-left .sidebar-heading {
+    font-size: 1.2em;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.sidebar-left .sidebar-categories {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-left .sidebar-categories li {
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-left .sidebar-categories a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s;
+}
+
+.sidebar-left .sidebar-categories a:hover {
+    color: #0073aa;
+}
+
+.sidebar-left .sidebar-categories .children {
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+}
+
 /* Archive page styling */
 .archive-header {
     margin-bottom: 3rem;
@@ -102,6 +140,18 @@ Author: Claude Code
 }
 
 /* Mobile responsive */
+@media (max-width: 1024px) {
+    .wp-block-columns.alignwide {
+        flex-direction: column;
+    }
+    
+    .sidebar-left {
+        position: static;
+        max-height: none;
+        margin-bottom: 2rem;
+    }
+}
+
 @media (max-width: 768px) {
     .wp-block-query {
         grid-template-columns: repeat(2, 1fr);
