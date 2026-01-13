@@ -70,12 +70,102 @@ function twentytwentyfive_child_render_dynamic_sidebar() {
  */
 add_filter('render_block', function($block_content, $block) {
     // template-part 블록이고 slug가 sidebar-left인 경우만 처리
-    if ($block['blockName'] === 'core/template-part' && 
-        isset($block['attrs']['slug']) && 
+    if ($block['blockName'] === 'core/template-part' &&
+        isset($block['attrs']['slug']) &&
         $block['attrs']['slug'] === 'sidebar-left') {
-        
+
         return twentytwentyfive_child_render_dynamic_sidebar();
     }
-    
+
     return $block_content;
 }, 10, 2);
+
+/**
+ * 인기 포스트 조회
+ */
+function twentytwentyfive_child_get_popular_post($category_id = null) {
+    $args = array(
+        'post_type' => 'post',
+        'posts_per_page' => 1,
+        'meta_key' => 'post_views_count',
+        'orderby' => 'meta_value_num',
+        'order' => 'DESC',
+        'post_status' => 'publish',
+    );
+
+    if ($category_id) {
+        $args['cat'] = $category_id;
+    }
+
+    $posts = get_posts($args);
+    return !empty($posts) ? $posts[0] : null;
+}
+
+/**
+ * Dynamic Block: Popular Post Render Callback
+ */
+function twentytwentyfive_child_render_popular_post($attributes) {
+    $type = $attributes['type'] ?? 'all';
+    $category_id = null;
+
+    // 타입에 따라 카테고리 결정
+    if ($type === 'category') {
+        global $post;
+
+        // 범주 페이지인 경우
+        if (is_category()) {
+            $category_id = get_queried_object_id();
+        }
+        // 개별 포스트 페이지인 경우
+        elseif (is_singular('post') && $post) {
+            $categories = get_the_category($post->ID);
+            if (!empty($categories)) {
+                $category_id = $categories[0]->term_id;
+            }
+        }
+    }
+
+    // 인기 포스트 가져오기
+    $popular_post = ($type === 'all')
+        ? twentytwentyfive_child_get_popular_post()
+        : twentytwentyfive_child_get_popular_post($category_id);
+
+    // 포스트가 없으면 메시지 반환
+    if (!$popular_post) {
+        return '<p style="color: #999; font-size: 0.9em;">인기 포스트가 없습니다.</p>';
+    }
+
+    // HTML 생성
+    $post_url = get_permalink($popular_post->ID);
+    $post_title = esc_html($popular_post->post_title);
+    $post_views = get_post_meta($popular_post->ID, 'post_views_count', true) ?: 0;
+
+    $html = '<div class="popular-post-item">';
+    $html .= '<a href="' . esc_url($post_url) . '">' . $post_title . '</a>';
+    $html .= ' <span style="color: #999; font-size: 0.9em;">(' . intval($post_views) . ' views)</span>';
+    $html .= '</div>';
+
+    return $html;
+}
+
+/**
+ * Register Dynamic Block
+ */
+function twentytwentyfive_child_register_popular_post_block() {
+    wp_register_script(
+        'twentytwentyfive-child-popular-post-editor',
+        get_stylesheet_directory_uri() . '/blocks/popular-post/index.js',
+        array('wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components'),
+        filemtime(get_stylesheet_directory() . '/blocks/popular-post/index.js')
+    );
+
+    register_block_type(
+        get_stylesheet_directory() . '/blocks/popular-post',
+        array(
+            'editor_script' => 'twentytwentyfive-child-popular-post-editor',
+            'render_callback' => 'twentytwentyfive_child_render_popular_post',
+        )
+    );
+}
+add_action('init', 'twentytwentyfive_child_register_popular_post_block');
+

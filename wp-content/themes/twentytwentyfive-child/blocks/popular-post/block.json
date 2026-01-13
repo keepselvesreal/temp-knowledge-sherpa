@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "twentytwentyfive-child/popular-post",
+	"title": "Popular Post",
+	"category": "widgets",
+	"icon": "star-filled",
+	"description": "Display popular post by views",
+	"attributes": {
+		"type": {
+			"type": "string",
+			"default": "all"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"textdomain": "twentytwentyfive-child"
+}
