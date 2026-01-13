@@ -1,0 +1,120 @@
+/*
+Theme Name: Twenty Twenty-Five Child
+Template: twentytwentyfive
+Version: 1.0
+Description: Child theme for dynamic block templates
+Author: Claude Code
+*/
+
+@import url(../twentytwentyfive/style.css);
+
+/* Archive page styling */
+.archive-header {
+    margin-bottom: 3rem;
+}
+
+.archive-header h1 {
+    font-size: 2.5em;
+    margin-bottom: 0.5rem;
+}
+
+.archive-header p {
+    font-size: 1.1em;
+    color: #666;
+}
+
+/* Posts grid layout */
+.wp-block-query {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+/* Post card styling */
+.wp-block-post-template {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.wp-block-post-template > li {
+    background: #f5f5f5;
+    border-radius: 12px;
+    overflow: hidden;
+    padding: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wp-block-post-template > li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Featured image */
+.wp-block-post-featured-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.wp-block-post-featured-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Post content spacing */
+.wp-block-post-template > li > * {
+    padding: 1rem;
+}
+
+.wp-block-post-template > li > :first-child {
+    padding-top: 0;
+}
+
+.wp-block-post-title {
+    margin-bottom: 0.5rem;
+}
+
+.wp-block-post-title a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.wp-block-post-title a:hover {
+    color: #0073aa;
+}
+
+.wp-block-post-excerpt {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+.wp-block-read-more {
+    color: #0073aa;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.wp-block-read-more:hover {
+    text-decoration: underline;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .wp-block-query {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .wp-block-query {
+        grid-template-columns: 1fr;
+    }
+
+    .archive-header h1 {
+        font-size: 1.8em;
+    }
+}
