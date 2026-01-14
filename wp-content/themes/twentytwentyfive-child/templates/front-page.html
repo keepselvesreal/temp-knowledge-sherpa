@@ -1,0 +1,126 @@
+<!-- wp:group {"layout":{"type":"default"},"style":{"spacing":{"padding":{"top":"60px","bottom":"60px"}}}} -->
+<div class="wp-block-group hero-section">
+
+	<!-- wp:heading {"textAlign":"center","level":1} -->
+	<h1 class="wp-block-heading has-text-align-center">My Knowledge Hub</h1>
+	<!-- /wp:heading -->
+
+	<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"18px"},"color":{"text":"#666666"}}} -->
+	<p class="has-text-align-center has-text-color" style="font-size:18px;color:#666666">다양한 지식 자료를 한곳에서 탐색하세요</p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:spacer {"height":"40px"} -->
+	<div style="height:40px" aria-hidden="true" class="wp-block-spacer"></div>
+	<!-- /wp:spacer -->
+
+	<!-- 언어 선택 섹션 -->
+	<!-- wp:group {"layout":{"type":"flex","justifyContent":"center","orientation":"vertical"},"style":{"spacing":{"padding":{"top":"20px","bottom":"20px","left":"20px","right":"20px"},"blockGap":"15px"},"border":{"radius":"12px"}},"backgroundColor":"tertiary"} -->
+	<div class="wp-block-group language-selector-section" style="border-radius:12px">
+
+		<!-- wp:paragraph {"align":"center"} -->
+		<p class="has-text-align-center language-label">언어 선택:</p>
+		<!-- /wp:paragraph -->
+
+		<!-- wp:buttons {"layout":{"type":"flex","justifyContent":"center"},"style":{"spacing":{"blockGap":"10px"}}} -->
+		<div class="wp-block-buttons">
+
+			<!-- wp:button {"text":"🇰🇷 한국어","backgroundColor":"primary","className":"lang-btn","attributes":{"data-lang":"ko"}} -->
+			<div class="wp-block-button">
+				<button class="wp-block-button__link has-primary-background-color has-background lang-btn" data-lang="ko">🇰🇷 한국어</button>
+			</div>
+			<!-- /wp:button -->
+
+			<!-- wp:button {"text":"🇺🇸 English","backgroundColor":"secondary","className":"lang-btn","attributes":{"data-lang":"en"}} -->
+			<div class="wp-block-button">
+				<button class="wp-block-button__link has-secondary-background-color has-background lang-btn" data-lang="en">🇺🇸 English</button>
+			</div>
+			<!-- /wp:button -->
+
+		</div>
+		<!-- /wp:buttons -->
+
+	</div>
+	<!-- /wp:group -->
+
+	<!-- wp:spacer {"height":"60px"} -->
+	<div style="height:60px" aria-hidden="true" class="wp-block-spacer"></div>
+	<!-- /wp:spacer -->
+
+	<!-- 카테고리 카드 섹션 -->
+	<!-- wp:columns {"columns":3,"layout":{"type":"default"}} -->
+	<div class="wp-block-columns has-3-columns">
+
+		<!-- BOOK 카테고리 -->
+		<!-- wp:column -->
+		<div class="wp-block-column">
+			<!-- wp:group {"layout":{"type":"default"},"style":{"spacing":{"padding":{"top":"20px","bottom":"20px","left":"20px","right":"20px"}},"border":{"radius":"12px"}},"backgroundColor":"tertiary"} -->
+			<div class="wp-block-group category-card" data-category="book" style="border-radius:12px;cursor:pointer">
+				<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"48px"}}} -->
+				<p class="has-text-align-center" style="font-size:48px">📚</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:heading {"textAlign":"center","level":3} -->
+				<h3 class="wp-block-heading has-text-align-center">BOOK</h3>
+				<!-- /wp:heading -->
+				<!-- wp:paragraph {"align":"center","className":"card-desc-ko"} -->
+				<p class="has-text-align-center card-desc-ko">지식을 담은 책들의 모음</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:paragraph {"align":"center","className":"card-desc-en","style":{"display":"none"}} -->
+				<p class="has-text-align-center card-desc-en" style="display:none">Collection of knowledge books</p>
+				<!-- /wp:paragraph -->
+			</div>
+			<!-- /wp:group -->
+		</div>
+		<!-- /wp:column -->
+
+		<!-- WEB 카테고리 -->
+		<!-- wp:column -->
+		<div class="wp-block-column">
+			<!-- wp:group {"layout":{"type":"default"},"style":{"spacing":{"padding":{"top":"20px","bottom":"20px","left":"20px","right":"20px"}},"border":{"radius":"12px"}},"backgroundColor":"tertiary"} -->
+			<div class="wp-block-group category-card" data-category="web" style="border-radius:12px;cursor:pointer">
+				<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"48px"}}} -->
+				<p class="has-text-align-center" style="font-size:48px">🌐</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:heading {"textAlign":"center","level":3} -->
+				<h3 class="wp-block-heading has-text-align-center">WEB</h3>
+				<!-- /wp:heading -->
+				<!-- wp:paragraph {"align":"center","className":"card-desc-ko"} -->
+				<p class="has-text-align-center card-desc-ko">웹 자료 및 블로그</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:paragraph {"align":"center","className":"card-desc-en","style":{"display":"none"}} -->
+				<p class="has-text-align-center card-desc-en" style="display:none">Web resources and blogs</p>
+				<!-- /wp:paragraph -->
+			</div>
+			<!-- /wp:group -->
+		</div>
+		<!-- /wp:column -->
+
+		<!-- YOUTUBE 카테고리 -->
+		<!-- wp:column -->
+		<div class="wp-block-column">
+			<!-- wp:group {"layout":{"type":"default"},"style":{"spacing":{"padding":{"top":"20px","bottom":"20px","left":"20px","right":"20px"}},"border":{"radius":"12px"}},"backgroundColor":"tertiary"} -->
+			<div class="wp-block-group category-card" data-category="youtube" style="border-radius:12px;cursor:pointer">
+				<!-- wp:paragraph {"align":"center","style":{"typography":{"fontSize":"48px"}}} -->
+				<p class="has-text-align-center" style="font-size:48px">🎥</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:heading {"textAlign":"center","level":3} -->
+				<h3 class="wp-block-heading has-text-align-center">YOUTUBE</h3>
+				<!-- /wp:heading -->
+				<!-- wp:paragraph {"align":"center","className":"card-desc-ko"} -->
+				<p class="has-text-align-center card-desc-ko">영상 강의 및 튜토리얼</p>
+				<!-- /wp:paragraph -->
+				<!-- wp:paragraph {"align":"center","className":"card-desc-en","style":{"display":"none"}} -->
+				<p class="has-text-align-center card-desc-en" style="display:none">Video lectures and tutorials</p>
+				<!-- /wp:paragraph -->
+			</div>
+			<!-- /wp:group -->
+		</div>
+		<!-- /wp:column -->
+
+	</div>
+	<!-- /wp:columns -->
+
+</div>
+<!-- /wp:group -->
+
+<!-- JavaScript 로드 -->
+<script src="../assets/js/language-selector.js"></script>

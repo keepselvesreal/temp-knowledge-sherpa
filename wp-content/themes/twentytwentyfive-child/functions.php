@@ -186,3 +186,19 @@ function twentytwentyfive_child_register_dynamic_blocks() {
 }
 add_action('init', 'twentytwentyfive_child_register_dynamic_blocks');
 
+/**
+ * Enqueue Language Selector Script (Front Page Only)
+ */
+function twentytwentyfive_child_enqueue_language_selector() {
+    if (is_front_page() && !is_home()) {
+        wp_enqueue_script(
+            'language-selector',
+            get_stylesheet_directory_uri() . '/assets/js/language-selector.js',
+            array(),
+            filemtime(get_stylesheet_directory() . '/assets/js/language-selector.js'),
+            true
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'twentytwentyfive_child_enqueue_language_selector');
+
