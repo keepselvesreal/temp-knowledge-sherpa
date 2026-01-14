@@ -66,8 +66,10 @@ ssh "$GCP_HOST" bash -s "$DEPLOY_PATH" "$REPO_URL" << 'REMOTE_GIT'
         echo "📤 Pulling latest code..."
         git pull origin main
     else
-        echo "📥 Cloning repository..."
-        git clone "$REPO_URL" .
+        echo "📥 Initializing git and pulling..."
+        git init
+        git remote add origin "$REPO_URL"
+        git pull origin main
     fi
 
     echo "✅ Git sync complete"
