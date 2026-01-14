@@ -31,7 +31,7 @@ fi
 # Step 2: 원격 디렉토리 준비
 # ============================================
 echo "📁 Preparing remote directory..."
-ssh "$GCP_HOST" << 'REMOTE_PREP'
+ssh "$GCP_HOST" bash -s "$DEPLOY_PATH" << 'REMOTE_PREP'
     set -e
     DEPLOY_PATH=$1
 
@@ -49,13 +49,13 @@ ssh "$GCP_HOST" << 'REMOTE_PREP'
     mkdir -p "$DEPLOY_PATH/config"
 
     echo "✅ Subdirectories ready"
-REMOTE_PREP $DEPLOY_PATH
+REMOTE_PREP
 
 # ============================================
 # Step 3: Git 동기화 (clone 또는 pull)
 # ============================================
 echo "📥 Syncing repository..."
-ssh "$GCP_HOST" << REMOTE_GIT
+ssh "$GCP_HOST" bash -s "$DEPLOY_PATH" "$REPO_URL" << 'REMOTE_GIT'
     set -e
     DEPLOY_PATH=$1
     REPO_URL=$2
@@ -70,13 +70,13 @@ ssh "$GCP_HOST" << REMOTE_GIT
     fi
 
     echo "✅ Git sync complete"
-REMOTE_GIT $DEPLOY_PATH "$REPO_URL"
+REMOTE_GIT
 
 # ============================================
 # Step 4: 환경설정 파일 생성
 # ============================================
 echo "⚙️  Creating .env file..."
-ssh "$GCP_HOST" << 'REMOTE_ENV'
+ssh "$GCP_HOST" bash -s "$DEPLOY_PATH" << 'REMOTE_ENV'
     set -e
     DEPLOY_PATH=$1
     cd "$DEPLOY_PATH"
@@ -102,13 +102,13 @@ GID=1000
 ENVFILE
         echo "✅ .env created"
     fi
-REMOTE_ENV $DEPLOY_PATH
+REMOTE_ENV
 
 # ============================================
 # Step 5: 원격 초기화 스크립트 실행
 # ============================================
 echo "🔧 Running remote initialization..."
-ssh "$GCP_HOST" << REMOTE_INIT
+ssh "$GCP_HOST" bash -s "$DEPLOY_PATH" << 'REMOTE_INIT'
     set -e
     DEPLOY_PATH=$1
     cd "$DEPLOY_PATH"
@@ -120,7 +120,7 @@ ssh "$GCP_HOST" << REMOTE_INIT
         echo "❌ scripts/vm/init.sh not found"
         exit 1
     fi
-REMOTE_INIT $DEPLOY_PATH
+REMOTE_INIT
 
 # ============================================
 # 배포 완료
