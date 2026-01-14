@@ -1,7 +1,14 @@
+# 환경 설정 (민감정보)
 .env
-db-initial-backup.sql
-logs/
-wp-content/uploads
+.env.bak
 
-# 번역 파일 (자동 생성)
-wp-content/languages/
+# 런타임 데이터 (wp-data)
+src/wp-data/
+!src/wp-data/.gitkeep
+
+# 로그 파일
+src/logs/
+*.log
+
+# 언어팩 (자동 다운로드)
+src/wp-content/languages/

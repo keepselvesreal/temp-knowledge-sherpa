@@ -17,7 +17,7 @@ services:
 
   wordpress:
     build:
-      context: .
+      context: ./src
       dockerfile: Dockerfile
       args:
         UID: ${UID}
@@ -33,14 +33,20 @@ services:
       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
       WORDPRESS_DEBUG: ${DEBUG_MODE}
     volumes:
-      # WordPress 핵심 파일
-      - ./wp-config.php:/var/www/html/wp-config.php
+      # WordPress 핵심 파일 (Git 추적)
+      - ./src/wp-config.php:/var/www/html/wp-config.php
 
-      # wp-content 전체 (themes, plugins, uploads, cache, mu-plugins)
-      - ./wp-content:/var/www/html/wp-content
+      # 코드 (plugins, themes, mu-plugins) - Git 추적
+      - ./src/wp-content/plugins:/var/www/html/wp-content/plugins
+      - ./src/wp-content/themes:/var/www/html/wp-content/themes
+      - ./src/wp-content/mu-plugins:/var/www/html/wp-content/mu-plugins
 
-      # PHP 에러 로그
-      - ./logs/php-error.log:/var/www/html/error_log
+      # 런타임 데이터 (wp-data) - .gitignore
+      - ./src/wp-data/uploads:/var/www/html/wp-content/uploads
+      - ./src/wp-data/cache:/var/www/html/wp-content/cache
+
+      # 로그 - .gitignore
+      - ./src/logs/php-error.log:/var/www/html/error_log
     ports:
       - "8080:80"
 
