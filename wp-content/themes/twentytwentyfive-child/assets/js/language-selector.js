@@ -1,94 +1,110 @@
 /**
- * Language Selector Script
+ * Language Selector for Front Page
  * - 브라우저 언어 자동 감지
- * - localStorage에 선택 언어 저장
- * - 언어 버튼 상태 관리
- * - 카테고리 카드 클릭 시 언어별 URL로 이동
+ * - 언어 버튼 클릭 처리
+ * - 카테고리 카드 클릭 시 언어별 이동
  */
 
-window.addEventListener('load', function() {
-    // 1. 저장된 언어 또는 브라우저 언어 감지
-    let selectedLang = localStorage.getItem('selectedLanguage');
+(function() {
+    'use strict';
 
-    if (!selectedLang) {
-        // 브라우저 언어 감지
-        const browserLang = navigator.language || navigator.userLanguage;
-        selectedLang = browserLang.startsWith('ko') ? 'ko' : 'en';
+    // 브라우저 언어 감지
+    const browserLang = (navigator.language || navigator.userLanguage).startsWith('ko') ? 'ko' : 'en';
+
+    // localStorage에서 저장된 언어 가져오기 (없으면 브라우저 언어)
+    let selectedLang = localStorage.getItem('selectedLanguage') || browserLang;
+
+    // 초기화
+    function init() {
+        updateUI(selectedLang);
+        attachEventListeners();
     }
 
-    // 2. 초기 UI 업데이트
-    updateUI(selectedLang);
-
+    // UI 업데이트
     function updateUI(lang) {
-        // 버튼 상태 업데이트
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            if (btn.dataset.lang === lang) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
+        // 버튼 상태 - 텍스트로 버튼 찾기
+        const buttons = document.querySelectorAll('.language-selector-section .wp-block-button__link');
+        let koBtn = null;
+        let enBtn = null;
+
+        buttons.forEach(btn => {
+            if (btn.textContent.includes('한국어')) {
+                koBtn = btn;
+            } else if (btn.textContent.includes('English')) {
+                enBtn = btn;
             }
         });
 
-        // 라벨 텍스트 변경
-        const label = document.querySelector('.language-label');
-        if (label) {
-            label.textContent = lang === 'en' ? 'Select Language:' : '언어 선택:';
+        if (koBtn && enBtn) {
+            if (lang === 'ko') {
+                koBtn.classList.add('active');
+                enBtn.classList.remove('active');
+            } else {
+                koBtn.classList.remove('active');
+                enBtn.classList.add('active');
+            }
         }
 
-        // 카드 설명 텍스트 변경
-        document.querySelectorAll('.category-card').forEach(card => {
-            const koDesc = card.querySelector('.card-desc-ko');
-            const enDesc = card.querySelector('.card-desc-en');
+        // 카드 설명
+        const descKo = document.querySelectorAll('.desc-ko');
+        const descEn = document.querySelectorAll('.desc-en');
 
-            if (lang === 'en') {
-                if (koDesc) koDesc.style.display = 'none';
-                if (enDesc) enDesc.style.display = 'block';
-            } else {
-                if (koDesc) koDesc.style.display = 'block';
-                if (enDesc) enDesc.style.display = 'none';
-            }
+        if (lang === 'ko') {
+            descKo.forEach(el => el.style.display = 'inline');
+            descEn.forEach(el => el.style.display = 'none');
+        } else {
+            descKo.forEach(el => el.style.display = 'none');
+            descEn.forEach(el => el.style.display = 'inline');
+        }
+    }
+
+    // 이벤트 리스너
+    function attachEventListeners() {
+        // 언어 버튼 클릭 - 텍스트로 버튼 찾기
+        const buttons = document.querySelectorAll('.language-selector-section .wp-block-button__link');
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                if (this.textContent.includes('한국어')) {
+                    selectedLang = 'ko';
+                    localStorage.setItem('selectedLanguage', 'ko');
+                    updateUI('ko');
+                } else if (this.textContent.includes('English')) {
+                    selectedLang = 'en';
+                    localStorage.setItem('selectedLanguage', 'en');
+                    updateUI('en');
+                }
+            });
+        });
+
+        // 카테고리 카드 클릭
+        const cards = document.querySelectorAll('.category-card');
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                let category = '';
+
+                if (this.classList.contains('category-book')) category = 'book';
+                else if (this.classList.contains('category-web')) category = 'web';
+                else if (this.classList.contains('category-youtube')) category = 'youtube';
+
+                if (category) {
+                    const slug = category + '-' + selectedLang;
+                    const url = selectedLang === 'en'
+                        ? `/en/category/${slug}/`
+                        : `/category/${slug}/`;
+
+                    window.location.href = url;
+                }
+            });
         });
     }
 
-    // 3. 언어 선택 버튼 클릭 이벤트
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const lang = this.dataset.lang;
-
-            // localStorage에 저장
-            localStorage.setItem('selectedLanguage', lang);
-            selectedLang = lang;
-
-            // UI 업데이트
-            updateUI(lang);
-        });
-    });
-
-    // 4. 카테고리 카드 클릭 이벤트
-    document.querySelectorAll('.category-card').forEach(card => {
-        card.addEventListener('click', function(e) {
-            e.preventDefault();
-            const categoryBase = this.dataset.category;
-            const baseUrl = window.location.origin;
-
-            // 카테고리 slug 규칙: 범주명-ko (한국어), 범주명-en (영어)
-            let categorySlug;
-            if (selectedLang === 'en') {
-                categorySlug = categoryBase + '-en';
-            } else {
-                categorySlug = categoryBase + '-ko';
-            }
-
-            // URL 구성
-            let url;
-            if (selectedLang === 'en') {
-                url = baseUrl + '/en/category/' + categorySlug + '/';
-            } else {
-                url = baseUrl + '/category/' + categorySlug + '/';
-            }
-
-            window.location.href = url;
-        });
-    });
-});
+    // DOM 로드 완료 후 실행
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();

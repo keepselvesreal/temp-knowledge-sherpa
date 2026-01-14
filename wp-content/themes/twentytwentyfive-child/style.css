@@ -204,36 +204,35 @@ Author: Claude Code
     justify-content: center !important;
 }
 
-.lang-btn {
-    padding: 12px 24px !important;
-    font-size: 1em;
-    border: 2px solid transparent !important;
-    border-radius: 6px;
-    cursor: pointer;
+/* Language Buttons */
+.language-selector-section .wp-block-button__link {
+    opacity: 0.6;
     transition: all 0.3s ease;
-    font-weight: 600;
-    opacity: 0.7;
 }
 
-.lang-btn:hover {
+.language-selector-section .wp-block-button__link:hover {
+    opacity: 1;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    opacity: 1;
 }
 
-.lang-btn.active {
+.language-selector-section .wp-block-button__link.active {
     opacity: 1;
-    border: 2px solid rgba(255, 255, 255, 0.8) !important;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.2);
-    transform: scale(1.08);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
 }
 
 /* Category Cards */
 .wp-block-columns.has-3-columns {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin: 2rem 0;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 2rem !important;
+    margin: 2rem 0 !important;
+    grid-auto-rows: 1fr !important;
+}
+
+.wp-block-columns.has-3-columns .wp-block-column {
+    display: flex !important;
+    align-items: stretch !important;
 }
 
 .category-card {
@@ -244,6 +243,11 @@ Author: Claude Code
     cursor: pointer;
     text-decoration: none;
     color: inherit;
+    width: 100%;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 300px;
 }
 
 .category-card:hover {
@@ -262,6 +266,16 @@ Author: Claude Code
     margin: 0.5rem 0 0 0;
     color: #666;
     font-size: 0.95em;
+}
+
+/* Card Descriptions */
+.desc-ko,
+.desc-en {
+    display: inline;
+}
+
+.desc-en {
+    display: none;
 }
 
 /* Responsive Design */
