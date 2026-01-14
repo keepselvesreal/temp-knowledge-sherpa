@@ -1,0 +1,95 @@
+# config/safe-options.yaml
+# WordPress wp_options 동기화 설정 (버전 0.1.0)
+# 로컬과 운영 서버 간 동기화할 안전한 옵션 명시
+# 마지막 검증: 2025-01-14 (현재 DB에서 확인됨)
+
+version: "0.1.0"
+description: "Safe options for local-to-production sync"
+last_verified: "2025-01-14"
+
+# ============================================
+# ✅ 동기화할 항목 (포함 목록)
+# 필수 설정: 모든 환경에서 동일해야 함
+# ============================================
+include:
+  - option_name: posts_per_page
+    current_value: 10
+    type: integer
+
+  - option_name: date_format
+    current_value: "F j, Y"
+    type: string
+
+  - option_name: time_format
+    current_value: "g:i a"
+    type: string
+
+  - option_name: default_category
+    current_value: 1
+    type: integer
+
+  - option_name: show_on_front
+    current_value: "posts"
+    type: string
+
+# ============================================
+# ❌ 동기화하지 않는 항목 (제외 목록)
+# ============================================
+exclude:
+  # 이유 유형: 환경별 값 다름
+  environment_dependent:
+    - option_name: siteurl
+      current_value: "http://localhost:8080"
+      prod_example: "https://yourdomain.com"
+
+    - option_name: home
+      current_value: "http://localhost:8080"
+      prod_example: "https://yourdomain.com"
+
+    - option_name: admin_email
+      current_value: "ktsfrank@naver.com"
+      prod_example: "admin@yourdomain.com"
+
+    - option_name: blogname
+      current_value: "knowledge-sherpa"
+      prod_example: "운영 사이트명"
+
+  # 이유 유형: 선택적 설정 (필요시 include로 이동)
+  optional:
+    - option_name: timezone_string
+      current_value: ""
+
+    - option_name: site_icon
+      current_value: 0
+
+    - option_name: custom_logo
+      current_value: 0
+
+    - option_name: blogdescription
+      current_value: ""
+
+  # 이유 유형: 현재 미사용 (설정 변경 시 include로 이동)
+  currently_unused:
+    - option_name: page_on_front
+      current_value: 0
+      condition: "show_on_front == 'posts'"
+
+    - option_name: page_for_posts
+      current_value: 0
+      condition: "show_on_front == 'posts'"
+
+# ============================================
+# ⚙️ 환경별 값 변환 규칙
+# ============================================
+environment_replacements:
+  siteurl:
+    dev: "http://localhost:8080"
+    prod: "https://yourdomain.com"
+
+  home:
+    dev: "http://localhost:8080"
+    prod: "https://yourdomain.com"
+
+  admin_email:
+    dev: "dev@localhost"
+    prod: "admin@yourdomain.com"
