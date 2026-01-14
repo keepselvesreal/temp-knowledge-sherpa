@@ -16,7 +16,12 @@ services:
       - "3307:3306"
 
   wordpress:
-    image: wordpress:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        UID: ${UID}
+        GID: ${GID}
     container_name: wordpress_playground_app
     restart: unless-stopped
     depends_on:
