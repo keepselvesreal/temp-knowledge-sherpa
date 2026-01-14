@@ -36,7 +36,8 @@ ssh "$GCP_HOST" bash -s "$DEPLOY_PATH" << 'REMOTE_PREP'
     DEPLOY_PATH=$1
 
     if [ ! -d "$DEPLOY_PATH" ]; then
-        mkdir -p "$DEPLOY_PATH"
+        sudo mkdir -p "$DEPLOY_PATH"
+        sudo chown -R $(id -u):$(id -g) "$DEPLOY_PATH"
         echo "✅ Created $DEPLOY_PATH"
     else
         echo "✅ $DEPLOY_PATH already exists"
