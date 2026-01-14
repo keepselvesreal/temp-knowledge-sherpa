@@ -101,6 +101,13 @@ Author: Claude Code
     object-fit: cover;
 }
 
+/* Archive Grid - 3x3 Grid layout */
+.wp-block-post-template {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
 /* Post content spacing */
 .wp-block-post-template > li > * {
     padding: 1rem;
